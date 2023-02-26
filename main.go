@@ -7,12 +7,12 @@ import (
 )
 
 func upperCase(size int, prefix string, useSymbol bool, channel chan<- string) {
-	letters := "abcdefghijklmnopqrstuvwxyz"
+	letters := "abcdefghijklmnopqrstuvwxyz0123456789"
 	generateCombinations(prefix, letters, size, useSymbol, channel)
 }
 
 func lowerCase(size int, prefix string, useSymbol bool, channel chan<- string) {
-	letters := "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	letters := "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	generateCombinations(prefix, letters, size, useSymbol, channel)
 }
 
@@ -35,7 +35,6 @@ func generateCombinations(prefix string, letters string, size int, useSymbol boo
 		}
 	}
 
-	// Add the same letter in uppercase
 	for i := 0; i < len(letters); i++ {
 		if unicode.IsLower(rune(letters[i])) {
 			newPrefix := prefix + string(unicode.ToUpper(rune(letters[i])))
@@ -52,17 +51,18 @@ func testMdp(password string, tentative string) bool {
 }
 
 func main() {
-	password := "nath"
+	password := "Wiib"
+	containSymbol := true
 	passwordSize := len(password)
 	startTime := time.Now()
 	channel := make(chan string)
-	go upperCase(passwordSize, "", false, channel)
-	go lowerCase(passwordSize, "", false, channel)
+	go upperCase(passwordSize, "", containSymbol, channel)
+	go lowerCase(passwordSize, "", containSymbol, channel)
 	for {
 		tentative := <-channel
-		fmt.Println("Tentative: ", tentative)
+		fmt.Printf("\rTrying: %s", tentative)
 		if testMdp(password, tentative) {
-			fmt.Println("Password found: ", tentative)
+			fmt.Println("\nPassword found: ", tentative)
 			break
 		}
 	}
