@@ -51,8 +51,8 @@ func testMdp(password string, tentative string) bool {
 }
 
 func main() {
-	password := "Wiib"
-	containSymbol := true
+	password := "Na33"
+	containSymbol := false
 	passwordSize := len(password)
 	startTime := time.Now()
 	channel := make(chan string)
