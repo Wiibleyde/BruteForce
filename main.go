@@ -51,7 +51,7 @@ func testMdp(password string, tentative string) bool {
 }
 
 func main() {
-	password := "Na33"
+	password := "nath"
 	containSymbol := false
 	passwordSize := len(password)
 	startTime := time.Now()
